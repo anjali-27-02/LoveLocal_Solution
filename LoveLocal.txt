@@ -1,0 +1,134 @@
+Easy 1
+
+Given a string s consisting of words and spaces, return the length of the last word in the string.
+A word is a maximal 
+substring consisting of non-space characters only.
+
+Solution: --(using Java because it has direct trim function to eliminates spaces from front and back)
+--------------------------------------------------------------------------------------------------------
+public class Main
+{ 
+    int findLength(String s) 
+    { 
+        int len = 0;
+
+        String x = s.trim();
+ 
+        for (int i = 0; i < x.length(); i++) {
+            if (x.charAt(i) == ' ')
+                len = 0;
+            else
+                len++;
+        }
+ 
+        return len;
+    }
+    public static void main(String[] args)
+    {
+        String input = "Anjali Bhardwaj  ";
+        Main solution = new Main();
+        System.out.println("The length of last word is "
+                           + solution.findLength(input));
+    }
+}
+--------------------------------------------------------------------------------------------------------
+
+Medium 3
+
+Given an m x n binary matrix filled with 0's and 1's, find the largest square containing only 1's 
+and return its area.
+
+Solution --(using c++)
+--------------------------------------------------------------------------------------------------------
+
+// Online C++ compiler to run C++ program online
+#include<bits/stdc++.h>
+using namespace std;
+class FindSquare{
+public:
+    int maxSquare(int n, int m, vector<vector<int>> mat){
+        vector<vector<int>>dp(n,vector<int>(m));
+        int maxi=0;
+        for(int i=0;i<n;i++){
+            dp[i][0]=mat[i][0]?1:0;
+            maxi=max(maxi,dp[i][0]);
+        }
+        for(int j=0;j<m;j++){
+            dp[0][j]=mat[0][j]?1:0;
+            maxi=max(maxi,dp[0][j]);
+        }
+        for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                if(mat[i][j]==1){
+                    dp[i][j]=1+min(dp[i-1][j],min(dp[i-1][j-1],dp[i][j-1]));
+                }
+                else{
+                    dp[i][j]=0;
+                }
+                maxi=max(maxi,dp[i][j]);
+            }
+        }
+        return maxi;
+        
+    }
+};
+int main(){
+    int n,m;
+    cin>>n>>m;
+    vector<vector<int>>mat(n,vector<int>(m,0));
+    for(int i=0;i<n*m;i++){
+        cin>>mat[i/m][i%m];
+    }
+    FindSquare fs;
+    cout<<fs.maxSquare(n,m,mat)<<endl;
+    return 0;
+}
+
+--------------------------------------------------------------------------------------------------------
+
+Hard 1
+
+Return the max sliding window.
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very 
+left of the array to the very right. You can only see the k numbers in the window.
+ Each time the sliding window moves right by one position.
+
+Solution --(using c++)
+--------------------------------------------------------------------------------------------------------
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> maxofSubA(int a[],int k,int n){
+    int i=0,j=0;
+    vector<int> v;
+    queue<int> q;
+    while(j<n){
+        while(q.size()>0 && q.front()<a[j]){
+            q.pop();
+        }
+        q.push(a[j]);
+        if(j-i+1<k){
+            j++;
+        }
+        else if(j-i+1==k){
+            v.push_back(q.front());
+            if(q.front()==a[i]){
+                q.pop();
+            }
+            i++;
+            j++;
+        }
+    }
+    return v;
+}
+int main()
+{
+    int a[]={5,2,10,1,6,20};
+    vector<int> v;
+    v=maxofSubA(a,3,6);
+    for (auto& it : v) {
+        
+        cout << it << ' ';
+    }
+}
+--------------------------------------------------------------------------------------------------------
